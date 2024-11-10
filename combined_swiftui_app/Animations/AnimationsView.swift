@@ -11,12 +11,12 @@ struct AnimationsView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: MultipleAnimationsView()) {
-                    Text("Multiple Animations")
+                NavigationLink(destination: BasicAnimationsView()) {
+                    Text("Basic Animations")
                 }
                 
-                NavigationLink(destination: DetailView(title: "Option 2")) {
-                    Text("Option 2")
+                NavigationLink(destination: MultipleAnimationsView()) {
+                    Text("Multiple Animations")
                 }
                 
                 NavigationLink(destination: DetailView(title: "Option 3")) {

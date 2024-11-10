@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct _DShapeAnimation: View {
+struct DShapeAnimation: View {
     @State private var rotationAngle: Double = 0
     
     var body: some View {
@@ -27,5 +27,5 @@ struct _DShapeAnimation: View {
 
 
 #Preview {
-    _DShapeAnimation()
+    DShapeAnimation()
 }

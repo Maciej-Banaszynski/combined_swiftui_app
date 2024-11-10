@@ -16,13 +16,14 @@
 		9CF6CE572CE0336B00E99E08 /* DataManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF6CE562CE0336B00E99E08 /* DataManagementView.swift */; };
 		9CFE18C42CE0350A00378AEA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18C32CE0350A00378AEA /* DetailView.swift */; };
 		9CFE18C62CE037C600378AEA /* MultipleChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18C52CE037C600378AEA /* MultipleChartsView.swift */; };
-		9CFE18C82CE0397600378AEA /* MultipleAnimationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18C72CE0397600378AEA /* MultipleAnimationsView.swift */; };
+		9CFE18C82CE0397600378AEA /* BasicAnimationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18C72CE0397600378AEA /* BasicAnimationsView.swift */; };
 		9CFE18CA2CE03B4900378AEA /* ShapeAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18C92CE03B4900378AEA /* ShapeAnimations.swift */; };
 		9CFE18CC2CE03B8B00378AEA /* BlurAndSaturationAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18CB2CE03B8B00378AEA /* BlurAndSaturationAnimation.swift */; };
 		9CFE18CE2CE03BC000378AEA /* ShadowAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18CD2CE03BC000378AEA /* ShadowAnimation.swift */; };
 		9CFE18D02CE03BE600378AEA /* 3DShapeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18CF2CE03BE600378AEA /* 3DShapeAnimation.swift */; };
 		9CFE18D22CE03C0800378AEA /* ScalingAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18D12CE03C0800378AEA /* ScalingAnimation.swift */; };
 		9CFE18D42CE03C2700378AEA /* OpacityAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18D32CE03C2700378AEA /* OpacityAnimation.swift */; };
+		9CFE18D82CE03FB800378AEA /* MultipleAnimationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFE18D72CE03FB800378AEA /* MultipleAnimationsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,13 +37,14 @@
 		9CF6CE562CE0336B00E99E08 /* DataManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagementView.swift; sourceTree = "<group>"; };
 		9CFE18C32CE0350A00378AEA /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		9CFE18C52CE037C600378AEA /* MultipleChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChartsView.swift; sourceTree = "<group>"; };
-		9CFE18C72CE0397600378AEA /* MultipleAnimationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleAnimationsView.swift; sourceTree = "<group>"; };
+		9CFE18C72CE0397600378AEA /* BasicAnimationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAnimationsView.swift; sourceTree = "<group>"; };
 		9CFE18C92CE03B4900378AEA /* ShapeAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeAnimations.swift; sourceTree = "<group>"; };
 		9CFE18CB2CE03B8B00378AEA /* BlurAndSaturationAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurAndSaturationAnimation.swift; sourceTree = "<group>"; };
 		9CFE18CD2CE03BC000378AEA /* ShadowAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowAnimation.swift; sourceTree = "<group>"; };
 		9CFE18CF2CE03BE600378AEA /* 3DShapeAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DShapeAnimation.swift; sourceTree = "<group>"; };
 		9CFE18D12CE03C0800378AEA /* ScalingAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalingAnimation.swift; sourceTree = "<group>"; };
 		9CFE18D32CE03C2700378AEA /* OpacityAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpacityAnimation.swift; sourceTree = "<group>"; };
+		9CFE18D72CE03FB800378AEA /* MultipleAnimationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleAnimationsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,14 +109,9 @@
 		9CF6CE502CE02CAB00E99E08 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				9CFE18D62CE03FA500378AEA /* MultipleAnimations */,
+				9CFE18D52CE03F9600378AEA /* BasicAnimations */,
 				9CF6CE542CE0324E00E99E08 /* AnimationsView.swift */,
-				9CFE18C72CE0397600378AEA /* MultipleAnimationsView.swift */,
-				9CFE18C92CE03B4900378AEA /* ShapeAnimations.swift */,
-				9CFE18CB2CE03B8B00378AEA /* BlurAndSaturationAnimation.swift */,
-				9CFE18CD2CE03BC000378AEA /* ShadowAnimation.swift */,
-				9CFE18CF2CE03BE600378AEA /* 3DShapeAnimation.swift */,
-				9CFE18D12CE03C0800378AEA /* ScalingAnimation.swift */,
-				9CFE18D32CE03C2700378AEA /* OpacityAnimation.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -125,6 +122,28 @@
 				9CF6CE562CE0336B00E99E08 /* DataManagementView.swift */,
 			);
 			path = DataManagement;
+			sourceTree = "<group>";
+		};
+		9CFE18D52CE03F9600378AEA /* BasicAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				9CFE18C72CE0397600378AEA /* BasicAnimationsView.swift */,
+			);
+			path = BasicAnimations;
+			sourceTree = "<group>";
+		};
+		9CFE18D62CE03FA500378AEA /* MultipleAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				9CFE18C92CE03B4900378AEA /* ShapeAnimations.swift */,
+				9CFE18CB2CE03B8B00378AEA /* BlurAndSaturationAnimation.swift */,
+				9CFE18CD2CE03BC000378AEA /* ShadowAnimation.swift */,
+				9CFE18CF2CE03BE600378AEA /* 3DShapeAnimation.swift */,
+				9CFE18D12CE03C0800378AEA /* ScalingAnimation.swift */,
+				9CFE18D32CE03C2700378AEA /* OpacityAnimation.swift */,
+				9CFE18D72CE03FB800378AEA /* MultipleAnimationsView.swift */,
+			);
+			path = MultipleAnimations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,7 +219,7 @@
 				9CFE18CA2CE03B4900378AEA /* ShapeAnimations.swift in Sources */,
 				9CFE18D02CE03BE600378AEA /* 3DShapeAnimation.swift in Sources */,
 				9CF6CE442CE02C3900E99E08 /* ContentView.swift in Sources */,
-				9CFE18C82CE0397600378AEA /* MultipleAnimationsView.swift in Sources */,
+				9CFE18C82CE0397600378AEA /* BasicAnimationsView.swift in Sources */,
 				9CFE18D22CE03C0800378AEA /* ScalingAnimation.swift in Sources */,
 				9CFE18C42CE0350A00378AEA /* DetailView.swift in Sources */,
 				9CFE18D42CE03C2700378AEA /* OpacityAnimation.swift in Sources */,
@@ -208,6 +227,7 @@
 				9CFE18CE2CE03BC000378AEA /* ShadowAnimation.swift in Sources */,
 				9CF6CE552CE0324E00E99E08 /* AnimationsView.swift in Sources */,
 				9CF6CE422CE02C3900E99E08 /* combined_swiftui_appApp.swift in Sources */,
+				9CFE18D82CE03FB800378AEA /* MultipleAnimationsView.swift in Sources */,
 				9CFE18C62CE037C600378AEA /* MultipleChartsView.swift in Sources */,
 				9CF6CE532CE0321300E99E08 /* ChartsView.swift in Sources */,
 				9CF6CE572CE0336B00E99E08 /* DataManagementView.swift in Sources */,

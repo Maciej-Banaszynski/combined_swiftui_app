@@ -1,5 +1,5 @@
 //
-//  MultipleAnimationsView.swift
+//  BasicAnimationsView.swift
 //  combined_swiftui_app
 //
 //  Created by Maciej Banaszyński on 10/11/2024.
@@ -10,7 +10,7 @@ import os.signpost
 
 let performanceLog = OSLog(subsystem: Bundle.main.bundleIdentifier ?? "com.example", category: "performance")
 
-struct MultipleAnimationsView: View {
+struct BasicAnimationsView: View {
     @State private var opacity: Double = 0.0
     @State private var scale: CGFloat = 0.5
     @State private var rotation: Angle = .degrees(0)
@@ -87,7 +87,7 @@ struct MultipleAnimationsView: View {
         .onAppear {
             runAnimations()
         }
-        .navigationTitle("Multiple Animations")
+        .navigationTitle("Basic Animations")
         .navigationBarTitleDisplayMode(.inline)
     }
     
@@ -129,7 +129,7 @@ struct MultipleAnimationsView: View {
 
 
 #Preview {
-    MultipleAnimationsView()
+    BasicAnimationsView()
 }
 
 

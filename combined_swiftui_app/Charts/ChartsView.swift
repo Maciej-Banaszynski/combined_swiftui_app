@@ -9,8 +9,27 @@ import SwiftUI
 
 struct ChartsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List {
+                NavigationLink(destination: MultipleChartsView()) {
+                    Text("Multiple Charts")
+                }
+                
+                NavigationLink(destination: DetailView(title: "Option 2")) {
+                    Text("Option 2")
+                }
+                
+                NavigationLink(destination: DetailView(title: "Option 3")) {
+                    Text("Option 3")                    
+                }
+            }
+            .navigationTitle("Charts")
+        }
     }
+}
+
+#Preview {
+    ContentView()
 }
 
 #Preview {

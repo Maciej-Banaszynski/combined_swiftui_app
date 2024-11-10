@@ -17,12 +17,12 @@ struct ContentView: View {
             
             AnimationsView()
                 .tabItem {
-                    Label("Search", systemImage: "magnifyingglass")
+                    Label("Animations", systemImage: "magnifyingglass")
                 }
             
             DataManagementView()
                 .tabItem {
-                    Label("Profile", systemImage: "person.crop.circle.fill")
+                    Label("Data", systemImage: "person.crop.circle.fill")
                 }
         }
     }

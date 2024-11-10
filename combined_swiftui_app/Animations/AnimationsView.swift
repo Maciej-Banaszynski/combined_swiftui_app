@@ -9,8 +9,27 @@ import SwiftUI
 
 struct AnimationsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List {
+                NavigationLink(destination: MultipleAnimationsView()) {
+                    Text("Multiple Animations")
+                }
+                
+                NavigationLink(destination: DetailView(title: "Option 2")) {
+                    Text("Option 2")
+                }
+                
+                NavigationLink(destination: DetailView(title: "Option 3")) {
+                    Text("Option 3")
+                }
+            }
+            .navigationTitle("Animations")
+        }
     }
+}
+
+#Preview {
+    ContentView()
 }
 
 #Preview {

@@ -92,8 +92,61 @@ struct MultipleChartsView: View {
     
     private func logMetrics() {
         guard let loadStart = loadStartTime, let loadEnd = loadEndTime else { return }
+        
         let loadDuration = loadEnd.timeIntervalSince(loadStart)
         print("Data Load Time: \(loadDuration) seconds for \(data.count) points")
+        
+        if let memoryUsage = getMemoryUsage() {
+            print("Memory Usage: \(memoryUsage / 1024 / 1024) MB")
+        }
+        
+        let cpuUsage = getCPUUsage()
+        print("CPU Usage: \(cpuUsage)%")
+        
+//        let fps = getFPS()
+//        print("Frame Rate (FPS): \(fps)")
+        
+        let uptime = ProcessInfo.processInfo.systemUptime
+        print("System Uptime: \(uptime) seconds")
+    }
+    
+    private func getMemoryUsage() -> UInt64? {
+        var info = mach_task_basic_info()
+        var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
+        
+        let kerr: kern_return_t = withUnsafeMutablePointer(to: &info) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
+                task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+            }
+        }
+        
+        guard kerr == KERN_SUCCESS else { return nil }
+        return info.resident_size
+    }
+    
+    private func getCPUUsage() -> Double {
+        var threads: thread_act_array_t?
+        var threadCount = mach_msg_type_number_t()
+        
+        guard task_threads(mach_task_self_, &threads, &threadCount) == KERN_SUCCESS, let threads = threads else { return -1 }
+        
+        var totalUsage: Double = 0.0
+        for i in 0..<Int(threadCount) {
+            var info = thread_basic_info()
+            var infoCount = mach_msg_type_number_t(THREAD_INFO_MAX)
+            let result = withUnsafeMutablePointer(to: &info) {
+                $0.withMemoryRebound(to: integer_t.self, capacity: Int(infoCount)) {
+                    thread_info(threads[i], thread_flavor_t(THREAD_BASIC_INFO), $0, &infoCount)
+                }
+            }
+            if result == KERN_SUCCESS {
+                totalUsage += Double(info.cpu_usage) / Double(TH_USAGE_SCALE) * 100.0
+            }
+        }
+        
+        vm_deallocate(mach_task_self_, vm_address_t(bitPattern: threads), vm_size_t(Int(threadCount) * MemoryLayout<thread_act_t>.size))
+
+        return totalUsage
     }
 }
 

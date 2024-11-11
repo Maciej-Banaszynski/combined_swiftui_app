@@ -12,17 +12,19 @@ struct ContentView: View {
         TabView {
             ChartsView()
                 .tabItem {
-                    Label("Charts", systemImage: "house.fill")
+                    Label("Charts", systemImage: "chart.bar.xaxis.ascending")
                 }
-            
             AnimationsView()
                 .tabItem {
-                    Label("Animations", systemImage: "magnifyingglass")
+                    Label("Animations", systemImage: "circle.square.fill")
                 }
-            
-            DataManagementView()
+            MapsPickerView()
                 .tabItem {
-                    Label("Data", systemImage: "person.crop.circle.fill")
+                    Label("Maps", systemImage: "map")
+                }
+            DataManagementPickerView()
+                .tabItem {
+                    Label("Data", systemImage: "ellipsis.curlybraces")
                 }
         }
     }

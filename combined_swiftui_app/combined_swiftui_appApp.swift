@@ -12,6 +12,7 @@ struct combined_swiftui_appApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: [User.self])
         }
     }
 }

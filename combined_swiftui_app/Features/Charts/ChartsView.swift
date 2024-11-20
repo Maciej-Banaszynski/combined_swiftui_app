@@ -11,16 +11,14 @@ struct ChartsView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: MultipleChartsView()) {
-                    Text("Multiple Charts")
+                NavigationLink(destination: SwiftChartView()) {
+                    Text("Swift Charts")
                 }
-                
-                NavigationLink(destination: DetailView(title: "Option 2")) {
-                    Text("Option 2")
+                NavigationLink(destination: CorePlotView()) {
+                    Text("Core Plot Charts")
                 }
-                
-                NavigationLink(destination: DetailView(title: "Option 3")) {
-                    Text("Option 3")                    
+                NavigationLink(destination: DGChartsView()) {
+                    Text("DGCharts")
                 }
             }
             .navigationTitle("Charts")
@@ -28,9 +26,6 @@ struct ChartsView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
 
 #Preview {
     ChartsView()

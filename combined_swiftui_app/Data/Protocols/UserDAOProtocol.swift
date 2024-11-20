@@ -9,6 +9,7 @@ import Foundation
 
 protocol UserDAOProtocol {
     func fetchAll() -> [User]
+    func getLeads() -> [User]
     func fetchById(id: UUID) -> User?
     func insert(user: User) -> Bool
     func insertMultiple(users: [User]) throws -> Bool

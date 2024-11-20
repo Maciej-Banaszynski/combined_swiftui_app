@@ -20,6 +20,12 @@ class SwiftDataUserDAO: UserDAOProtocol {
         return (try? modelContext.fetch(request)) ?? []
     }
     
+    func getLeads() -> [User] {
+        let request = FetchDescriptor<User>(predicate: #Predicate<User> { $0.position.contains("lead") ||  $0.position.contains("Lead") })
+        return (try? modelContext.fetch(request)) ?? []
+    }
+
+    
     func fetchById(id: UUID) -> User? {
         let request = FetchDescriptor<User>(predicate: #Predicate { $0.id == id })
         return try? modelContext.fetch(request).first
@@ -31,14 +37,18 @@ class SwiftDataUserDAO: UserDAOProtocol {
     }
     
     func insertMultiple(users: [User]) throws -> Bool {
-        try modelContext.transaction {
-            for user in users {
-                modelContext.insert(user)
-            }
+        guard !users.isEmpty else { return false }
+        let chunkSize: Int = 1000
+        
+        try stride(from: 0, to: users.count, by: chunkSize).forEach { start in
+            let end = min(start + chunkSize, users.count)
+            users[start..<end].forEach { modelContext.insert($0) }
+            try modelContext.save()
         }
         
-        return saveContext()
+        return true
     }
+
     
     func update(user: User) -> Bool {
         return saveContext()

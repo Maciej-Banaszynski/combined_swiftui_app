@@ -17,6 +17,7 @@ struct DataManagementPickerView: View {
                     SwiftDataManagementDestinationView()
                         .toolbar(.hidden, for: .tabBar)
                 }
+                .accessibilityIdentifier("swiftDataManagementButton")
                 NavigationLink("SQLite Data Management") {
                     let userRepository = SQLiteUserRepository(userDAO: SQLiteUserDAO())
                     let viewModel = BasicDataViewModel(repository: userRepository)
@@ -24,6 +25,7 @@ struct DataManagementPickerView: View {
                     DataManagementView(viewModel: viewModel, isSQLiteView: true)
                         .toolbar(.hidden, for: .tabBar)
                 }
+                .accessibilityIdentifier("sqliteDataManagementButton")
             }
             .navigationTitle("Data")
         }

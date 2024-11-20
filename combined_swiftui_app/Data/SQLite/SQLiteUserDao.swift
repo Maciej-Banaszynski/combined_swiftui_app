@@ -12,15 +12,15 @@ class SQLiteUserDAO: UserDAOProtocol {
     private let db: Connection?
     private let usersTable = Table("users")
     
-    private let id = Expression<UUID>("id")
-    private let firstName = Expression<String>("firstName")
-    private let lastName = Expression<String>("lastName")
-    private let birthday = Expression<Date>("birthday")
-    private let address = Expression<String>("address")
-    private let photo = Expression<Data?>("photo")
-    private let phoneNumber = Expression<String>("phoneNumber")
-    private let position = Expression<String>("position")
-    private let company = Expression<String>("company")
+    private let id = Expression<UUID>(value: "id")
+    private let firstName = Expression<String>(value: "firstName")
+    private let lastName = Expression<String>(value: "lastName")
+    private let birthday = Expression<Date>(value: "birthday")
+    private let address = Expression<String>(value: "address")
+    private let photo = Expression<Data?>(value: "photo")
+    private let phoneNumber = Expression<String>(value: "phoneNumber")
+    private let position = Expression<String>(value: "position")
+    private let company = Expression<String>(value: "company")
     
     init() {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
@@ -49,71 +49,75 @@ class SQLiteUserDAO: UserDAOProtocol {
     
     func fetchAll() -> [User] {
         var users: [User] = []
-        guard let db = db else { return users }
-        do {
-            for row in try db.prepare(usersTable) {
-                let user = User(
-                    id: row[id],
-                    firstName: row[firstName],
-                    lastName: row[lastName],
-                    birthday: row[birthday],
-                    address: row[address],
-                    photo: row[photo],
-                    phoneNumber: row[phoneNumber],
-                    position: row[position],
-                    company: row[company]
-                )
-                users.append(user)
-            }
-        } catch {
-            print("Failed to fetch users: \(error)")
-        }
+//        guard let db = db else { return users }
+//        do {
+//            for row in try db.prepare(usersTable) {
+//                let user = User(
+//                    id: row[id],
+//                    firstName: row[firstName],
+//                    lastName: row[lastName],
+//                    birthday: row[birthday],
+//                    address: row[address],
+//                    photo: row[photo],
+//                    phoneNumber: row[phoneNumber],
+//                    position: row[position],
+//                    company: row[company]
+//                )
+//                users.append(user)
+//            }
+//        } catch {
+//            print("Failed to fetch users: \(error)")
+//        }
         return users
+    }
+    
+    func getLeads() -> [User] {
+        return []
     }
     
     func fetchById(id: UUID) -> User? {
         guard let db = db else { return nil }
-        let query = usersTable.filter(self.id == id)
-        do {
-            if let row = try db.pluck(query) {
-                return User(
-                    id: row[self.id],
-                    firstName: row[firstName],
-                    lastName: row[lastName],
-                    birthday: row[birthday],
-                    address: row[address],
-                    photo: row[photo],
-                    phoneNumber: row[phoneNumber],
-                    position: row[position],
-                    company: row[company]
-                )
-            }
-        } catch {
-            print("Failed to fetch user by ID: \(error)")
-        }
+//        let query = usersTable.filter(self.id == id)
+//        do {
+//            if let row = try db.pluck(query) {
+//                return User(
+//                    id: row[self.id],
+//                    firstName: row[firstName],
+//                    lastName: row[lastName],
+//                    birthday: row[birthday],
+//                    address: row[address],
+//                    photo: row[photo],
+//                    phoneNumber: row[phoneNumber],
+//                    position: row[position],
+//                    company: row[company]
+//                )
+//            }
+//        } catch {
+//            print("Failed to fetch user by ID: \(error)")
+//        }
         return nil
     }
     
     func insert(user: User) -> Bool {
         guard let db = db else { return false }
-        let insert = usersTable.insert(
-            id <- user.id,
-            firstName <- user.firstName,
-            lastName <- user.lastName,
-            birthday <- user.birthday,
-            address <- user.address,
-            photo <- user.photo,
-            phoneNumber <- user.phoneNumber,
-            position <- user.position,
-            company <- user.company
-        )
-        do {
-            try db.run(insert)
+//        let insert = usersTable.insert(
+//            id <- user.id,
+//            firstName <- user.firstName,
+//            lastName <- user.lastName,
+//            birthday <- user.birthday,
+//            address <- user.address,
+//            photo <- user.photo,
+//            phoneNumber <- user.phoneNumber,
+//            position <- user.position,
+//            company <- user.company
+//        )
+//        do {
+//            try db.run(insert)
             return true
-        } catch {
-            print("Failed to insert user: \(error)")
-            return false
-        }
+//        } catch {
+//            print("Failed to insert user: \(error)")
+//            return false
+//        }
     }
     
     func insertMultiple(users: [User]) throws -> Bool {
@@ -133,35 +137,35 @@ class SQLiteUserDAO: UserDAOProtocol {
     
     func update(user: User) -> Bool {
         guard let db = db else { return false }
-        let userToUpdate = usersTable.filter(id == user.id)
-        do {
-            try db.run(userToUpdate.update(
-                firstName <- user.firstName,
-                lastName <- user.lastName,
-                birthday <- user.birthday,
-                address <- user.address,
-                photo <- user.photo,
-                phoneNumber <- user.phoneNumber,
-                position <- user.position,
-                company <- user.company
-            ))
+//        let userToUpdate = usersTable.filter(id == user.id)
+//        do {
+//            try db.run(userToUpdate.update(
+//                firstName <- user.firstName,
+//                lastName <- user.lastName,
+//                birthday <- user.birthday,
+//                address <- user.address,
+//                photo <- user.photo,
+//                phoneNumber <- user.phoneNumber,
+//                position <- user.position,
+//                company <- user.company
+//            ))
             return true
-        } catch {
-            print("Failed to update user: \(error)")
-            return false
-        }
+//        } catch {
+//            print("Failed to update user: \(error)")
+//            return false
+//        }
     }
     
     func delete(user: User) -> Bool {
         guard let db = db else { return false }
-        let userToDelete = usersTable.filter(id == user.id)
-        do {
-            try db.run(userToDelete.delete())
+//        let userToDelete = usersTable.filter(id == user.id)
+//        do {
+//            try db.run(userToDelete.delete())
             return true
-        } catch {
-            print("Failed to delete user: \(error)")
-            return false
-        }
+//        } catch {
+//            print("Failed to delete user: \(error)")
+//            return false
+//        }
     }
     
     func deleteAll() throws -> Bool {

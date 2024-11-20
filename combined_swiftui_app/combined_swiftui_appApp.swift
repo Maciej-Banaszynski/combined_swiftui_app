@@ -9,10 +9,18 @@ import SwiftUI
 
 @main
 struct combined_swiftui_appApp: App {
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .modelContainer(for: [User.self])
+            ZStack {
+                ContentView()
+                    .modelContainer(for: [User.self])
+                LiveMetricsView()
+            }
+            .onAppear {
+                MetricsManager.shared.startMonitoring()
+            }
         }
+        
     }
 }

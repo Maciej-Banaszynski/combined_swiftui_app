@@ -11,6 +11,7 @@ import CoreData
 
 protocol UserRepositoryProtocol {
     func getAllUsers() -> [User]
+    func getLeads() -> [User]
     func getUser(byId id: UUID) -> User?
     func addUser(_ user: User) -> Bool
     func addUsers(_ users: [User]) -> Bool

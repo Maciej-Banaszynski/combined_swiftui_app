@@ -14,15 +14,15 @@ class SQLiteManager {
     private(set) var db: Connection?
     private(set) var usersTable = Table("users")
     
-    let id = Expression<UUID>("id")
-    let firstName = Expression<String>("firstName")
-    let lastName = Expression<String>("lastName")
-    let birthday = Expression<Date>("birthday")
-    let address = Expression<String>("address")
-    let photo = Expression<Data?>("photo")
-    let phoneNumber = Expression<String>("phoneNumber")
-    let position = Expression<String>("position")
-    let company = Expression<String>("company")
+    let id = Expression<UUID>(value: "id")
+    let firstName = Expression<String>(value: "firstName")
+    let lastName = Expression<String>(value: "lastName")
+    let birthday = Expression<Date>(value: "birthday")
+    let address = Expression<String>(value: "address")
+    let photo = Expression<Data?>(value: "photo")
+    let phoneNumber = Expression<String>(value: "phoneNumber")
+    let position = Expression<String>(value: "position")
+    let company = Expression<String>(value: "company")
     
     init() {
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!

@@ -19,6 +19,10 @@ class SQLiteUserRepository: UserRepositoryProtocol {
         userDAO.fetchAll()
     }
     
+    func getLeads() -> [User] {
+        userDAO.getLeads()
+    }
+    
     func getUser(byId id: UUID) -> User? {
         userDAO.fetchById(id: id)
     }

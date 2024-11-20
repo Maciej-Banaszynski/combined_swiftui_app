@@ -18,61 +18,18 @@ struct DataManagementView: View {
         self.isSQLiteView = isSQLiteView
     }
     
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
-    
     var body: some View {
         VStack(spacing: 10) {
             Text("User Count: \(viewModel.userCount)")
                 .font(.title)
             Text("Generate users:")
-            LazyVGrid(columns: columns, spacing: 10) {
-                ForEach([10, 100, 1000, 10000, 30000], id: \.self) { count in
-                    Button(action: { performAction { viewModel.generateUsers(count: count) } }, label: {
-                        Text("\(count)")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    })
-                    .disabled(isLoading)
-                    .buttonStyle(.borderedProminent)
-                    
-                }
-                Button(action: { performAction { viewModel.deleteAllUsers() } }, label: {
-                    Text("Delete All")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                })
-                .disabled(isLoading)
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
-               
-            }
-            .padding()
-            if !viewModel.users.isEmpty {
-                NavigationLink {
-                    ScrollView {
-                        LazyVGrid(columns: [GridItem(.flexible()),GridItem(.flexible())]) {
-                            ForEach(viewModel.users, id: \.id) { user in
-                                UserProfileTile(user: user)
-                                    .padding(6)
-                            }
-                        }
-                    }
-                } label: {
-                    Text("See All Users")
-                        .frame(maxWidth: .infinity)
-                }
-                .navigationTitle("Users List")
-                .buttonStyle(.borderedProminent)
-                .padding()
-            }
+            ButtonsSection(viewModel: viewModel, isLoading: $isLoading)
+            SeeUsersSection(viewModel: viewModel)
             Spacer()
         }
-        .onAppear {
-            viewModel.loadUserCount()
-            viewModel.loadUsers()
-        }
+        .buttonStyle(.borderedProminent)
+        .disabled(isLoading)
+        .onAppear { Task {viewModel.loadUsers() }}
         .navigationTitle("\(isSQLiteView ? "SQLite" : "Swift") Data Managament")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -84,19 +41,110 @@ struct DataManagementView: View {
             }
         }
     }
+}
+
+struct ButtonsSection: View {
+    @ObservedObject var viewModel: BasicDataViewModel
+    @Binding var isLoading: Bool
     
-    private func performAction(_ action: @escaping () -> Void) {
-        isLoading = true
-        DispatchQueue.global().async {
-            action()
-            DispatchQueue.main.async {
-                isLoading = false
+    var body: some View {
+        LazyVGrid(columns: columns, spacing: 10) {
+            ForEach(GeneratedUsersCount.allCases, id: \.self) { count in
+                ViewButton(
+                    isLoading: $isLoading,
+                    action: { viewModel.loadUsersFromCSV(count: count) },
+                    label: "\(count.displayName)"
+                )
+                .accessibilityIdentifier("\(count.accessibilityIdentifier)")
             }
+            ViewButton(
+                isLoading: $isLoading,
+                action: { viewModel.loadLeadsUsers() },
+                label: "Get only Leads"
+            )
+            .accessibilityIdentifier("getOnlyLeadUsersButton")
+            ViewButton(
+                isLoading: $isLoading,
+                action: { viewModel.loadUsers() },
+                label: "Get All"
+            )
+            .accessibilityIdentifier("getAllUsersButton")
+            ViewButton(
+                isLoading: $isLoading,
+                action: { viewModel.deleteAllUsers() },
+                label: "Delete All"
+            )
+            .tint(.red)
+            .accessibilityIdentifier("deleteAllUsersButton")
         }
+        .padding()
     }
     
-    
+    private let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
 }
+
+struct SeeUsersSection: View {
+    @ObservedObject var viewModel: BasicDataViewModel
+    
+    var body: some View {
+        if !viewModel.users.isEmpty {
+            NavigationLink {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible()),GridItem(.flexible())]) {
+                        ForEach(viewModel.users, id: \.id) { user in
+                            UserProfileTile(user: user)
+                                .padding(6)
+                        }
+                    }
+                }
+            } label: {
+                Text("See Users")
+                    .frame(maxWidth: .infinity)
+            }
+            .padding()
+        }
+    }
+}
+
+struct ViewButton: View {
+    @Binding var isLoading: Bool
+    let action: () -> Void
+    let label: String
+    
+    var body: some View {
+        Button(
+            action: {
+                isLoading = true
+                Task {
+                    await performAction()
+                }
+            },
+            label: {
+                Text(label)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        )
+        .disabled(isLoading)
+    }
+    
+    private func performAction() async {
+        await withTaskGroup(of: Void.self) { taskGroup in
+            taskGroup.addTask {
+                await MetricsManager.shared.trackAction(actionName: label) {
+                    action()
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            isLoading = false
+        }
+    }
+}
+
 
 struct SwiftDataManagementDestinationView: View {
     var body: some View {

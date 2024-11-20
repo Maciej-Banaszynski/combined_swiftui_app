@@ -18,6 +18,10 @@ class SwiftDataUserRepository: UserRepositoryProtocol {
         userDAO.fetchAll()
     }
     
+    func getLeads() -> [User] {
+        userDAO.getLeads()
+    }
+    
     func getUser(byId id: UUID) -> User? {
         userDAO.fetchById(id: id)
     }
@@ -26,7 +30,7 @@ class SwiftDataUserRepository: UserRepositoryProtocol {
         userDAO.insert(user: user)
     }
     
-    func addUsers(_ users: [User]) -> Bool {
+    func addUsers(_ users: [User])  -> Bool {
         do {
             return try userDAO.insertMultiple(users: users)
         }  catch {
@@ -52,5 +56,12 @@ class SwiftDataUserRepository: UserRepositoryProtocol {
     
     func getUserCount() -> Int {
         userDAO.count()
+    }
+    
+    private func measureTime(_ label: String, operation: () -> Void) {
+        let start = CFAbsoluteTimeGetCurrent()
+        operation()
+        let end = CFAbsoluteTimeGetCurrent()
+        print("\(label): \(end - start) seconds")
     }
 }

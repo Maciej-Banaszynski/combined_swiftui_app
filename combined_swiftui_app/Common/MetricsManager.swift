@@ -157,44 +157,60 @@ class MetricsManager {
     }
     
     // MARK: - Track Action
-    func trackAction<T>(actionName: String, action: @escaping () -> T) async {
+    func trackAction<T>(actionName: String, action: @escaping () async throws -> T) async rethrows -> T? {
         let startTime = Date()
         let csvFileName = "\(actionName)_\(formatDate(date: startTime)).csv"
-        let csvFilePath = createCSVFile(name: csvFileName)
+        let csvFilePath = createCSVFile(name: csvFileName) 
         var metricsData: [[String]] = [["Time", "Battery Level", "Battery State", "Free Disk Space (MB)", "Free Disk (%)", "Memory Usage (MB)", "Free Memory (%)", "CPU Usage (%)", "FPS"]]
         
         let timerQueue = DispatchQueue(label: "com.trackAction.timer", qos: .background)
         let timer = DispatchSource.makeTimerSource(queue: timerQueue)
         
-        timer.schedule(deadline: .now(), repeating: 1.0)
+        timer.schedule(deadline: .now(), repeating: 0.1)
         timer.setEventHandler {
-            let metrics = self.collectMetrics()
-            let timestamp = Date().timeIntervalSince(startTime)
-            let row: [String] = [
-                String(format: "%.2f", timestamp),
-                "\(metrics["batteryLevel"] ?? "")",
-                "\(metrics["batteryState"] ?? "")",
-                "\(metrics["freeDiskSpaceMB"] ?? "")",
-                "\(metrics["freeDiskPercentage"] ?? "")",
-                "\(metrics["memoryUsageMB"] ?? "")",
-                "\(metrics["freeMemoryPercentage"] ?? "")",
-                "\(metrics["cpuUsage"] ?? "")",
-                "\(metrics["fps"] ?? "")"
-            ]
-            print(row)
+            let row = self.getCurrentMetrics(from: startTime)
+//            print("\(row) + \(actionName)")
             metricsData.append(row)
         }
         timer.resume()
         
-        await withTaskGroup(of: Void.self) { taskGroup in
-            taskGroup.addTask {
-                _ = action()
+        var result: T?
+        do {
+            try await withTaskCancellationHandler {
+                defer {
+                    timer.cancel()
+                    self.saveMetricsToCSV(metricsData, filePath: csvFilePath)
+                }
+                result = try await action()
+                let row = self.getCurrentMetrics(from: startTime)
+//                print("\(row) + \(actionName)")
+                metricsData.append(row)
+            } onCancel: {
+                timer.cancel()
             }
+        } catch {
+            timer.cancel()
+            self.saveMetricsToCSV(metricsData, filePath: csvFilePath)
+            throw error
         }
-        
-        timer.cancel()
-        
-        saveMetricsToCSV(metricsData, filePath: csvFilePath)
+        return result
+    }
+
+    private func getCurrentMetrics(from startTime: Date) -> [String] {
+        let metrics = self.collectMetrics()
+        let timestamp = Date().timeIntervalSince(startTime)
+        let row: [String] = [
+            String(format: "%.2f", timestamp),
+            "\(metrics["batteryLevel"] ?? "")",
+            "\(metrics["batteryState"] ?? "")",
+            "\(metrics["freeDiskSpaceMB"] ?? "")",
+            "\(metrics["freeDiskPercentage"] ?? "")",
+            "\(metrics["memoryUsageMB"] ?? "")",
+            "\(metrics["freeMemoryPercentage"] ?? "")",
+            "\(metrics["cpuUsage"] ?? "")",
+            "\(metrics["fps"] ?? "")"
+        ]
+        return row
     }
 
     private func collectMetrics() -> [String: Any] {

@@ -20,7 +20,6 @@ class DateValueFormatter: AxisValueFormatter {
         let date = Date(timeIntervalSince1970: value)
         let calendar = Calendar.current
         
-        // Round to the nearest hour
         let components = calendar.dateComponents([.year, .month, .day, .hour], from: date)
         if let roundedDate = calendar.date(from: components) {
             return formatter.string(from: roundedDate)

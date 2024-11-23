@@ -11,6 +11,10 @@ struct AnimationsView: View {
     var body: some View {
         NavigationStack {
             List {
+                NavigationLink("Animation Comparison") {
+                    AnimationComparisonScreen()
+                        .toolbar(.hidden, for: .tabBar)
+                }
                 NavigationLink("Basic Animations") {
                     BasicAnimationsView()
                         .toolbar(.hidden, for: .tabBar)

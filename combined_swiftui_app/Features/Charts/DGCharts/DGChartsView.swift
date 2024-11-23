@@ -12,9 +12,10 @@ struct DGChartsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                DGLineChartView(chartType: .singleLine)
-                DGBarChartView()
-                DGLineChartView(chartType: .multiLine)
+                DGLineChartView(chartType: .single)
+                DGBarChartView(chartType: .single)
+                DGLineChartView(chartType: .multi)
+                DGBarChartView(chartType: .multi)
             }
             .padding()
         }

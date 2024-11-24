@@ -29,20 +29,20 @@ struct DGBarChartView: View{
         Task {
             switch chartType {
                 case .single:
-                    await MetricsManager.shared.trackAction(actionName: "Generate \(dataSize.rawValue) Data for single DGBarChart") {
+//                    await MetricsManager.shared.trackAction(actionName: "Generate \(dataSize.rawValue) Data for single DGBarChart") {
                         data = (data: [ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)], labels: ["Line 1"])
                         await waitForDataRender()
                         dataHasRendered = false
-                    }
+//                    }
                 case .multi:
-                    await MetricsManager.shared.trackAction(actionName: "Generate \(dataSize.rawValue) Data for multiline DGBarChart") {
+//                    await MetricsManager.shared.trackAction(actionName: "Generate \(dataSize.rawValue) Data for multiline DGBarChart") {
                         let line1 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         let line2 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         let line3 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         data = (data: [line1, line2, line3], labels: ["Bar 1", "Bar 2", "Bar 3"])
                         await waitForDataRender()
                         dataHasRendered = false
-                    }
+//                    }
             }
             
         }

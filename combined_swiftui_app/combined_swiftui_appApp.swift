@@ -15,10 +15,10 @@ struct combined_swiftui_appApp: App {
             ZStack {
                 ContentView()
                     .modelContainer(for: [User.self])
-                LiveMetricsView()
+//                LiveMetricsView()
             }
             .onAppear {
-                MetricsManager.shared.startMonitoring()
+//                MetricsManager.shared.startMonitoring()
             }
         }
         

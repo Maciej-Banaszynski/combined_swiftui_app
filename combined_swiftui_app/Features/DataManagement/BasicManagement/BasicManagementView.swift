@@ -134,9 +134,9 @@ struct ViewButton: View {
     private func performAction() async {
         await withTaskGroup(of: Void.self) { taskGroup in
             taskGroup.addTask {
-                await MetricsManager.shared.trackAction(actionName: label) {
-                    action()
-                }
+//                await MetricsManager.shared.trackAction(actionName: label) {
+                await action()
+//                }
             }
         }
         DispatchQueue.main.async {

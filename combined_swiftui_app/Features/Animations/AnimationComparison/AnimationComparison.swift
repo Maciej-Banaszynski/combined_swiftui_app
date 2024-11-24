@@ -67,7 +67,7 @@ struct AnimationComparisonScreen: View {
                             }) {
                                 Text("Load\n\(count.displayName)")
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    
+                                
                                     .background(isLoadingUsers ? Color.gray : Color.blue)
                                     .foregroundColor(.white)
                                     .cornerRadius(8)
@@ -85,7 +85,7 @@ struct AnimationComparisonScreen: View {
                                 .background(isLoadingUsers ? Color.gray : Color.red)
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
-                                
+                            
                         }
                         .disabled(isLoadingUsers)
                     }
@@ -113,22 +113,14 @@ struct AnimationComparisonScreen: View {
     }
     
     private func startMetricsTracking() {
-        Task {
-            await MetricsManager.shared.trackAction(actionName: "Animation Comparison Metrics numElements:\(numElements) animationSpeed:\(animationSpeed)") {
-                while isAnimating {
-                    try? await Task.sleep(nanoseconds: UInt64(100_000_000))
-                }
-                return
-            }
-        }
-    }
-    
-    private func trackMetrics() async {
-        while isAnimating {
-            // Collect metrics asynchronously
-            print("Tracking metrics...")
-            try? await Task.sleep(nanoseconds: UInt64(100_000_000)) // 100 ms
-        }
+//        Task {
+//            await MetricsManager.shared.trackAction(actionName: "Animation Comparison Metrics numElements:\(numElements) animationSpeed:\(animationSpeed)") {
+//                while isAnimating {
+//                    try? await Task.sleep(nanoseconds: UInt64(100_000_000))
+//                }
+//                return
+//            }
+//        }
     }
     
     private func loadUsers(from count: GeneratedUsersCount) async {
@@ -136,17 +128,13 @@ struct AnimationComparisonScreen: View {
         defer { isLoadingUsers = false }
         
         do {
-            // Load and batch process users
-            let users = try await loadUsersFromCSV(count: count)
-//            await MainActor.run {
-//                listOfUsers.append(contentsOf: users)
-//            }
+            try await loadUsersFromCSV(count: count)
         } catch {
             print("Error loading users: \(error)")
         }
     }
     
-    private func loadUsersFromCSV(count: GeneratedUsersCount) async throws -> [User] {
+    private func loadUsersFromCSV(count: GeneratedUsersCount) async throws {
         guard let filePath = Bundle.main.path(forResource: "\(count.displayName)", ofType: "csv") else {
             throw NSError(domain: "FileError", code: 404, userInfo: [NSLocalizedDescriptionKey: "File not found"])
         }
@@ -157,8 +145,7 @@ struct AnimationComparisonScreen: View {
         
         let rows = csvString.components(separatedBy: "\n").map { $0.components(separatedBy: ",") }.dropFirst()
         
-        // Batch process users off the main thread
-        let users: [User] = try await Task.detached {
+        let users: [User] = await Task.detached {
             rows.compactMap { row in
                 guard row.count >= 7 else { return nil }
                 let user = User(
@@ -174,8 +161,6 @@ struct AnimationComparisonScreen: View {
                 return user
             }
         }.value
-        
-        return users
     }
 }
 struct ExpensiveAnimatedCircle: View {
@@ -230,7 +215,7 @@ struct ExpensiveAnimatedCircle: View {
         }
     }
     
-   
+    
     
     private func stopAnimation() {
         withAnimation(.default) {

@@ -18,14 +18,14 @@ struct DataManagementPickerView: View {
                         .toolbar(.hidden, for: .tabBar)
                 }
                 .accessibilityIdentifier("swiftDataManagementButton")
-                NavigationLink("SQLite Data Management") {
-                    let userRepository = SQLiteUserRepository(userDAO: SQLiteUserDAO())
-                    let viewModel = BasicDataViewModel(repository: userRepository)
-                    
-                    DataManagementView(viewModel: viewModel, isSQLiteView: true)
-                        .toolbar(.hidden, for: .tabBar)
-                }
-                .accessibilityIdentifier("sqliteDataManagementButton")
+//                NavigationLink("SQLite Data Management") {
+//                    let userRepository = SQLiteUserRepository(userDAO: SQLiteUserDAO())
+//                    let viewModel = BasicDataViewModel(repository: userRepository)
+//                    
+//                    DataManagementView(viewModel: viewModel, isSQLiteView: true)
+//                        .toolbar(.hidden, for: .tabBar)
+//                }
+//                .accessibilityIdentifier("sqliteDataManagementButton")
             }
             .navigationTitle("Data")
         }

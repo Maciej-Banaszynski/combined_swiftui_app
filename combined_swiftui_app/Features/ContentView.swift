@@ -20,21 +20,21 @@ struct ContentView: View {
                     Label("Animations", systemImage: "circle.square.fill")
                         .accessibilityIdentifier("animationsTab")
                 }
-            MapsPickerView()
-                .tabItem {
-                    Label("Maps", systemImage: "map")
-                        .accessibilityIdentifier("mapsTab")
-                }
+//            MapsPickerView()
+//                .tabItem {
+//                    Label("Maps", systemImage: "map")
+//                        .accessibilityIdentifier("mapsTab")
+//                }
             DataManagementPickerView()
                 .tabItem {
                     Label("Data", systemImage: "ellipsis.curlybraces")
                         .accessibilityIdentifier("dataTab")
                 }
-            ResponsiveViews()
-                .tabItem {
-                    Label("Responsive Views", systemImage: "viewfinder")
-                        .accessibilityIdentifier("responsiveTab")
-                }
+//            ResponsiveViews()
+//                .tabItem {
+//                    Label("Responsive Views", systemImage: "viewfinder")
+//                        .accessibilityIdentifier("responsiveTab")
+//                }
         }
     }
 }

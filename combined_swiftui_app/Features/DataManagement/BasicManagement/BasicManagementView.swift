@@ -119,7 +119,7 @@ struct ViewButton: View {
         Button(
             action: {
                 isLoading = true
-                Task {
+                Task.detached {
                     await performAction()
                 }
             },

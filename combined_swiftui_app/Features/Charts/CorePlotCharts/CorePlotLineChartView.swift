@@ -9,7 +9,7 @@ import SwiftUI
 import CorePlot
 
 struct CorePlotLineChartView: View {
-    @State private var dataSize: DataSize = .hundred
+    @State private var dataSize: DataSize = .fifty
     @State private var data: (data: [[DataPoint]], labels: [String]) = ( data: [], labels: [])
     @State private var dataHasRendered: Bool = false
     
@@ -28,20 +28,12 @@ struct CorePlotLineChartView: View {
         Task {
             switch chartType {
                 case .single:
-//                    await MetricsManager.shared.trackAction(actionName: "Generate \(dataSize.rawValue) Data for single CorePlotLineChart") {
                         data = (data: [ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)], labels: ["Line 1"])
-//                        await waitForDataRender()
-//                        dataHasRendered = false
-//                    }
                 case .multi:
-//                    await MetricsManager.shared.trackAction(actionName: "Generate \(dataSize.rawValue) Data for multiline CorePlotLineChart") {
                         let line1 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         let line2 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         let line3 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         data = (data: [line1, line2, line3], labels: ["Line 1", "Line 2", "Line 3"])
-//                        await waitForDataRender()
-//                        dataHasRendered = false
-//                    }
             }
             
         }

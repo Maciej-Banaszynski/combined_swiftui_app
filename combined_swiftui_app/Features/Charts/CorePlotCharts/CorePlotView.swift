@@ -9,12 +9,6 @@ import SwiftUI
 import CorePlot
 
 struct CorePlotView: View {
-    @State private var lineDataSize: DataSize = .hundred
-    @State private var lineData: [DataPoint] = []
-    
-    @State private var barDataSize: DataSize = .ten
-    @State private var barData: [DataPoint] = []
-    
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {

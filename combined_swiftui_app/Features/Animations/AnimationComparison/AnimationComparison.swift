@@ -10,7 +10,7 @@ import SwiftUI
 struct AnimationComparisonScreen: View {
     @State private var isAnimating: Bool = false
     @State private var numElements: Int = 5
-    @State private var animationSpeed: Double = 1.0
+    @State private var animationSpeed: Int = 1
     @State private var isLoadingUsers: Bool = false
     @State private var listOfUsers: [User] = []
     
@@ -35,19 +35,23 @@ struct AnimationComparisonScreen: View {
                     }
                     HStack {
                         Text("Animation Speed:")
-                        Slider(value: $animationSpeed, in: 0.1...100.0, step: 0.1) {
-                            Text("Speed")
+                        Picker("", selection: $animationSpeed) {
+                            Text("1").tag(1)
+                            Text("5").tag(5)
+                            Text("10").tag(10)
+                            Text("20").tag(20)
+                            Text("30").tag(30)
+                            Text("50").tag(50)
+                            Text("80").tag(80)
+                            Text("100").tag(100)
                         }
+                        .pickerStyle(MenuPickerStyle())
+
                         .frame(height: 50)
                     }
                     Text("Speed: \(animationSpeed, specifier: "%.1f")x")
                         .font(.caption)
                     Toggle("Run Animations", isOn: $isAnimating)
-                        .onChange(of: isAnimating) { newValue in
-                            if newValue {
-                                startMetricsTracking()
-                            }
-                        }
                 }
                 .padding()
                 
@@ -112,17 +116,6 @@ struct AnimationComparisonScreen: View {
         .navigationTitle("Animation Comparison")
     }
     
-    private func startMetricsTracking() {
-//        Task {
-//            await MetricsManager.shared.trackAction(actionName: "Animation Comparison Metrics numElements:\(numElements) animationSpeed:\(animationSpeed)") {
-//                while isAnimating {
-//                    try? await Task.sleep(nanoseconds: UInt64(100_000_000))
-//                }
-//                return
-//            }
-//        }
-    }
-    
     private func loadUsers(from count: GeneratedUsersCount) async {
         isLoadingUsers = true
         defer { isLoadingUsers = false }
@@ -165,7 +158,7 @@ struct AnimationComparisonScreen: View {
 }
 struct ExpensiveAnimatedCircle: View {
     @Binding var isAnimating: Bool
-    @Binding var animationSpeed: Double
+    @Binding var animationSpeed: Int
     let screenWidth: CGFloat
     let screenHeight: CGFloat
     
@@ -207,7 +200,7 @@ struct ExpensiveAnimatedCircle: View {
         guard isAnimating else { return }
         
         withAnimation(
-            Animation.easeInOut(duration: (Double.random(in: 2.0...10.0) / animationSpeed))
+            Animation.easeInOut(duration: (Double.random(in: 2.0...10.0) / Double(animationSpeed)))
                 .repeatForever(autoreverses: true)
         ) {
             offsetX = randomX

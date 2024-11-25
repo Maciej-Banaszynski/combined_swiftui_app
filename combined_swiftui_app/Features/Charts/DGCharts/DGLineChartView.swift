@@ -10,7 +10,7 @@ import DGCharts
 import Combine
 
 struct DGLineChartView : View {
-    @State private var dataSize: DataSize = .hundred
+    @State private var dataSize: DataSize = .fifty
     @State private var data: (data: [[DataPoint]], labels: [String]) = ([],[])
     @State private var dataHasRendered: Bool = false
     

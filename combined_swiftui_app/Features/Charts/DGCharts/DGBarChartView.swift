@@ -9,7 +9,7 @@ import SwiftUI
 import DGCharts
 
 struct DGBarChartView: View{
-    @State private var dataSize: DataSize = .ten
+    @State private var dataSize: DataSize = .five
     @State private var data: (data: [[DataPoint]], labels: [String]) = ([],[])
     @State private var dataHasRendered: Bool = false
     
@@ -29,34 +29,14 @@ struct DGBarChartView: View{
         Task {
             switch chartType {
                 case .single:
-//                    await MetricsManager.shared.trackAction(actionName: "Generate \(dataSize.rawValue) Data for single DGBarChart") {
                         data = (data: [ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)], labels: ["Line 1"])
-                        await waitForDataRender()
-                        dataHasRendered = false
-//                    }
                 case .multi:
-//                    await MetricsManager.shared.trackAction(actionName: "Generate \(dataSize.rawValue) Data for multiline DGBarChart") {
                         let line1 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         let line2 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         let line3 = ChartsManager.generateChartData(dataSize: dataSize, byAdding: .hour)
                         data = (data: [line1, line2, line3], labels: ["Bar 1", "Bar 2", "Bar 3"])
-                        await waitForDataRender()
-                        dataHasRendered = false
-//                    }
             }
             
-        }
-    }
-    
-    private func waitForDataRender() async {
-        await withCheckedContinuation { continuation in
-            let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-                if dataHasRendered {
-                    timer.invalidate()
-                    continuation.resume()
-                }
-            }
-            RunLoop.main.add(timer, forMode: .common)
         }
     }
 }
